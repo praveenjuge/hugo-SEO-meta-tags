@@ -18,14 +18,13 @@ enableEmoji = true
 enableGitInfo = true
 enableRobotsTXT = true
 canonifyURLs = true
-disableHugoGeneratorInject = true
 
 [params]
   author = "Praveen Juge"
   github = "https://github.com/praveenjuge"
   facebook = "https://facebook.com/praveenjuge"
   og_image = "/images/og.png"
-  sitename = "Example Site"
+  sitename = "Example Site Name"
   twitter = "@praveenjuge"
 
 [languages]
@@ -224,12 +223,12 @@ For pages such as `/contact`, `/about` etc.. Don't include these tags on article
   { 
     "@context": "http://schema.org", 
     "@type": "WebSite", 
-    "url": "{{ .Site.BaseURL }}", 
+    "url": "{{ .Permalink }}", 
     "sameAs": [
       "{{ .Site.Params.facebook }}", 
       "{{ .Site.Params.github }}"
     ], 
-    "name": "Skcript", 
+    "name": "{{ .Title }}", 
     "logo": "https://www.example.com/images/brand/favicon.png" 
   }
 </script>
@@ -270,6 +269,13 @@ For pages such as `/contact`, `/about` etc.. Don't include these tags on article
 ### Other Tags
 
 ```html
+<!-- Manifest File -->
+<link rel="manifest" href="{{ .Site.BaseURL }}manifest.json" />
+
+<!-- Theme Color -->
+<meta name="theme-color" content="#141414" /> 
+<meta name="msapplication-TileColor" content="#141414" />
+
 <meta name="keywords" content="" />
 <meta name="imagemode" content="force" />
 <meta name="coverage" content="Worldwide" /> 
