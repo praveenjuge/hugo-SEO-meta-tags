@@ -1,6 +1,6 @@
 # Hugo SEO Meta Tags
 
-Simple list of SEO tags to use on Hugo sites directly 
+Simple list of SEO tags to use on Hugo based websites.
 
 ### `config.toml`
 
