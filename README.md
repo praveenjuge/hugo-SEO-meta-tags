@@ -44,14 +44,13 @@ canonifyURLs = true
 A default [`baseof.html` file](https://gohugo.io/templates/base/) with best SEO practices.
 
 ```html
-<!doctype html>
+<!DOCTYPE html>
 <html prefix="og: http://ogp.me/ns#" lang="{{ .Language }}">
-
   <head itemscope itemtype="{{ .Site.BaseURL }}">
-    <meta charset="utf-8" /> 
+    <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    
+
     <!-- All the meta tags below will come under this meta partial -->
     {{ partial "meta" . }}
     {{ partial "links" . }}
@@ -61,13 +60,11 @@ A default [`baseof.html` file](https://gohugo.io/templates/base/) with best SEO 
     {{ partial "header" . }}
     <main id="main">
       {{ block "main" . }}
-
       {{ end }}
     </main>
-    {{ partial "footer" . }} 
+    {{ partial "footer" . }}
     {{ partial "js" . }}
   </body>
-
 </html>
 ```
 
@@ -94,36 +91,36 @@ A default [`baseof.html` file](https://gohugo.io/templates/base/) with best SEO 
 ### Link Tags
 
 ```html
-<base href="{{ .Permalink }}">
-<link rel="canonical" href="{{ .Permalink }}" itemprop="url" /> 
+<base href="{{ .Permalink }}" />
+<link rel="canonical" href="{{ .Permalink }}" itemprop="url" />
 <meta name="url" content="{{ .Permalink }}" />
-<meta name="twitter:url" content="{{ .Permalink }}" /> 
+<meta name="twitter:url" content="{{ .Permalink }}" />
 <meta property="og:url" content="{{ .Permalink }}" />
 ```
 
 ### Language Tags
 
 ```html
-<meta property="og:locale" content="{{ .Language.Lang }}">
-<meta name="language" content="{{ .Language.LanguageName }}">
+<meta property="og:locale" content="{{ .Language.Lang }}" />
+<meta name="language" content="{{ .Language.LanguageName }}" />
 {{ range .AllTranslations }}
-  <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.LanguageName }}">
+  <link rel="alternate" hreflang="{{ .Language.Lang }}" href="{{ .Permalink }}" title="{{ .Language.LanguageName }}" />
 {{ end }}
 ```
 
 ### Image Tags
 
 ```html
-{{ with .Params.image }} 
+{{ with .Params.image }}
   <meta itemprop="image" content="{{ . | absURL }}" />
-  <meta property="og:image" content="{{ . | absURL }}" /> 
+  <meta property="og:image" content="{{ . | absURL }}" />
   <meta name="twitter:image" content="{{ . | absURL }}" />
-  <meta name="twitter:image:src" content="{{ . | absURL }}" /> 
+  <meta name="twitter:image:src" content="{{ . | absURL }}" />
 {{ else }}
   <meta itemprop="image" content="{{ .Site.Params.ogimage | absURL }}" />
   <meta property="og:image" content="{{ .Site.Params.ogimage | absURL }}" />
   <meta name="twitter:image" content="{{ .Site.Params.ogimage | absURL }}" />
-  <meta name="twitter:image:src" content="{{ .Site.Params.ogimage | absURL }}" /> 
+  <meta name="twitter:image:src" content="{{ .Site.Params.ogimage | absURL }}" />
 {{ end }}
 ```
 
@@ -136,7 +133,7 @@ A default [`baseof.html` file](https://gohugo.io/templates/base/) with best SEO 
 ### Sitemap & RSS Feed Tags
 
 ```html
-<link rel="sitemap" type="application/xml" title="Sitemap" href="{{ .Site.BaseURL }}sitemap.xml" /> 
+<link rel="sitemap" type="application/xml" title="Sitemap" href='{{ "sitemap.xml" | absURL }}' />
 
 {{ with .OutputFormats.Get "RSS" }}
   <link href="{{ .Permalink }}" rel="alternate" type="application/rss+xml" title="{{ $.Site.Title }}" />
@@ -150,65 +147,65 @@ These meta tags are specific for article or blog pages such as, `example.org/blo
 
 ```html
 <!-- To make sure this renders only in the article page, we check the section -->
-{{ if eq .Section "blog" }} 
+{{ if eq .Section "blog" }}
 
-  <!-- Pagination meta tags for list pages only -->
-  {{ $paginator := .Paginate (where .Pages "Section" "blog") }}
-  {{ if $paginator }}
-    <link rel="first" href="{{ $paginator.First.URL }}">
-    <link rel="last" href="{{ $paginator.Last.URL }}">
-    {{ if $paginator.HasPrev }}
-      <link rel="prev" href="{{ $paginator.Prev.URL }}">
-    {{end }}
-    {{ if $paginator.HasNext }}
-      <link rel="next" href="{{ $paginator.Next.URL }}">
-    {{end }}
+<!-- Pagination meta tags for list pages only -->
+{{ $paginator := .Paginate (where .Pages "Section" "blog") }} 
+{{ if $paginator }}
+  <link rel="first" href="{{ $paginator.First.URL }}" />
+  <link rel="last" href="{{ $paginator.Last.URL }}" />
+  {{ if $paginator.HasPrev }}
+    <link rel="prev" href="{{ $paginator.Prev.URL }}" />
   {{end }}
+  {{ if $paginator.HasNext }}
+    <link rel="next" href="{{ $paginator.Next.URL }}" />
+  {{end }}
+{{end }}
 
-  <meta property="og:type" content="article" />
-  <meta property="article:publisher" content="{{ .Site.Params.facebook }}" /> 
-  <meta property="og:article:published_time" content={{ .Date.Format "2006-01-02T15:04:05Z0700" | safeHTML }} /> 
-  <meta property="article:published_time" content={{ .Date.Format "2006-01-02T15:04:05Z0700" | safeHTML }} />
-  
-  {{ with.Params.author }} 
-    <meta property="og:article:author" content="{{humanize . }}" />
-    <meta property="article:author" content="{{humanize . }}" /> 
-    <meta name="author" content="{{humanize . }}" /> 
-  {{ end }}
-  
-  {{ with.Params.category }} 
-    <meta name="news_keywords" content="{{ index . 0 }}" />
-    <meta property="article:section" content="{{ index . 0 }}" /> 
-  {{ end }}
+<meta property="og:type" content="article" />
+<meta property="article:publisher" content="{{ .Site.Params.facebook }}" />
+<meta property="og:article:published_time" content={{ .Date.Format "2006-01-02T15:04:05Z0700" | safeHTML }} />
+<meta property="article:published_time" content={{ .Date.Format "2006-01-02T15:04:05Z0700" | safeHTML }} />
 
-  <script defer type="application/ld+json">
-    {
-      "@context": "http://schema.org",
-      "@type": "Article",
-      "headline": {{ .Title }},
-      "author": {
-        "@type": "Person",
-        "name": "{{ .Site.Params.github }}"
-      },
-      "datePublished": "{{ .Date.Format "2006-01-02" }}",
-      "description": {{ .Description }},
-      "wordCount": {{ .WordCount }},
-      "mainEntityOfPage": "True",
-      "dateModified": "{{ .Lastmod.Format "2006-01-02" }}",
-      "image": {
+{{ with.Params.author }}
+  <meta property="og:article:author" content="{{humanize . }}" />
+  <meta property="article:author" content="{{humanize . }}" />
+  <meta name="author" content="{{humanize . }}" />
+{{ end }}
+
+{{ with.Params.category }}
+  <meta name="news_keywords" content="{{ index . 0 }}" />
+  <meta property="article:section" content="{{ index . 0 }}" />
+{{ end }}
+
+<script defer type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": {{ .Title }},
+    "author": {
+      "@type": "Person",
+      "name": "{{ .Site.Params.github }}"
+    },
+    "datePublished": "{{ .Date.Format "2006-01-02" }}",
+    "description": {{ .Description }},
+    "wordCount": {{ .WordCount }},
+    "mainEntityOfPage": "True",
+    "dateModified": "{{ .Lastmod.Format "2006-01-02" }}",
+    "image": {
+      "@type": "imageObject",
+      "url": "{{ with .Params.image }}{{ .Permalink }}{{ end }}"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "{{ .Site.Title }}",
+      "logo": {
         "@type": "imageObject",
-        "url": "{{ with .Params.image }}{{ .Permalink }}{{ end }}"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "{{ .Site.Title }}",
-        "logo": {
-          "@type": "imageObject",
-          "url": "https://www.example.com/images/brand/favicon.png"
-        }
+        "url": "https://www.example.com/images/brand/favicon.png"
       }
     }
-  </script>
+  }
+</script>
 {{ end }}
 ```
 
@@ -217,19 +214,19 @@ These meta tags are specific for article or blog pages such as, `example.org/blo
 For pages such as `/contact`, `/about` etc.. Don't include these tags on article or blog pages.
 
 ```html
-<meta property="og:type" content="website" /> 
+<meta property="og:type" content="website" />
 <meta name="author" content="{{ .Site.Params.author }}" />
 <script defer type="application/ld+json">
-  { 
-    "@context": "http://schema.org", 
-    "@type": "WebSite", 
-    "url": "{{ .Permalink }}", 
+  {
+    "@context": "http://schema.org",
+    "@type": "WebSite",
+    "url": "{{ .Permalink }}",
     "sameAs": [
-      "{{ .Site.Params.facebook }}", 
+      "{{ .Site.Params.facebook }}",
       "{{ .Site.Params.github }}"
-    ], 
-    "name": "{{ .Title }}", 
-    "logo": "https://www.example.com/images/brand/favicon.png" 
+    ],
+    "name": "{{ .Title }}",
+    "logo": "https://www.example.com/images/brand/favicon.png"
   }
 </script>
 ```
@@ -253,14 +250,14 @@ For pages such as `/contact`, `/about` etc.. Don't include these tags on article
 ### Search Engine Crawler Tags
 
 ```html
-<meta name="robots" content="index,follow" /> 
+<meta name="robots" content="index,follow" />
 <meta name="googlebot" content="index,follow" />
 ```
 
 ### Specific Social Media Tags
 
 ```html
-<meta name="twitter:site" content="{{ .Site.Params.twitter }}">
+<meta name="twitter:site" content="{{ .Site.Params.twitter }}" />
 <meta name="twitter:creator" content="{{ .Site.Params.twitter }}" />
 <meta property="fb:app_id" content="538089519640705" />
 <meta property="fb:admins" content="100000686899395" />
@@ -270,20 +267,20 @@ For pages such as `/contact`, `/about` etc.. Don't include these tags on article
 
 ```html
 <!-- Manifest File -->
-<link rel="manifest" href="{{ .Site.BaseURL }}manifest.json" />
+<link rel="manifest" href='{{ "manifest.json" | absURL }}' />
 
 <!-- Theme Color -->
-<meta name="theme-color" content="#141414" /> 
+<meta name="theme-color" content="#141414" />
 <meta name="msapplication-TileColor" content="#141414" />
 
 <meta name="keywords" content="" />
 <meta name="imagemode" content="force" />
-<meta name="coverage" content="Worldwide" /> 
+<meta name="coverage" content="Worldwide" />
 <meta name="distribution" content="Global" />
-<meta name="HandheldFriendly" content="True" /> 
+<meta name="HandheldFriendly" content="True" />
 <meta name="msapplication-tap-highlight" content="no" />
-<meta name="apple-mobile-web-app-title" content="{{ .Site.Params.sitename }}" /> 
+<meta name="apple-mobile-web-app-title" content="{{ .Site.Params.sitename }}" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-touch-fullscreen" content="yes" /> 
+<meta name="apple-touch-fullscreen" content="yes" />
 ```
