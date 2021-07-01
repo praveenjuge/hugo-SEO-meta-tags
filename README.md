@@ -9,10 +9,7 @@ An example config file to help with everything we use in the meta tags.
 ```toml
 baseURL = "https://www.example.org/"
 title = "Example Site"
-
 languageCode = "en-us"
-DefaultContentLanguage = "en"
-paginate = 12
 
 enableEmoji = true
 enableGitInfo = true
@@ -24,7 +21,7 @@ canonifyURLs = true
   github = "https://github.com/praveenjuge"
   facebook = "https://facebook.com/praveenjuge"
   og_image = "/images/og.png"
-  sitename = "Example Site Name"
+  sitename = "Site Name"
   twitter = "@praveenjuge"
 
 [languages]
@@ -46,7 +43,7 @@ A default [`baseof.html` file](https://gohugo.io/templates/base/) with best SEO 
 ```html
 <!DOCTYPE html>
 <html prefix="og: http://ogp.me/ns#" lang="{{ .Language }}">
-  <head itemscope itemtype="{{ .Site.BaseURL }}">
+  <head itemscope itemtype="https://schema.org/WebPage">  <!-- Use the correct itemtype for your website https://schema.org/CreativeWork#subtypes -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -254,7 +251,7 @@ For pages such as `/contact`, `/about` etc.. Don't include these tags on article
 <meta name="googlebot" content="index,follow" />
 ```
 
-### Specific Social Media Tags
+### Social Media Tags
 
 ```html
 <meta name="twitter:site" content="{{ .Site.Params.twitter }}" />
@@ -266,21 +263,9 @@ For pages such as `/contact`, `/about` etc.. Don't include these tags on article
 ### Other Tags
 
 ```html
-<!-- Manifest File -->
 <link rel="manifest" href='{{ "manifest.json" | absURL }}' />
-
-<!-- Theme Color -->
 <meta name="theme-color" content="#141414" />
-<meta name="msapplication-TileColor" content="#141414" />
-
-<meta name="keywords" content="" />
-<meta name="imagemode" content="force" />
-<meta name="coverage" content="Worldwide" />
-<meta name="distribution" content="Global" />
-<meta name="HandheldFriendly" content="True" />
-<meta name="msapplication-tap-highlight" content="no" />
 <meta name="apple-mobile-web-app-title" content="{{ .Site.Params.sitename }}" />
 <meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-<meta name="apple-touch-fullscreen" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
 ```
